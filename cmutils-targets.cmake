@@ -155,7 +155,7 @@ endfunction()
 #   {value} [in] target:    Target to add flag
 #   {value} [in] flag:      Flag to add
 #   {value} [in] configs:   Configs for the property to change (DEBUG|RELEASE|RELWITHDEBINFO)
-macro(cmutils_cmutils_target_add_c_compiler_flag target flag)
+macro(cmutils_target_add_c_compiler_flag target flag)
 	cmutils_target_add_compiler_flag(${target} C ${flag} ${ARGN})
 endmacro()
 
@@ -229,7 +229,7 @@ endfunction()
 #   {value} [in] target:    Target to add flag
 #   {value} [in] flag:      Flag to add
 #   {value} [in] configs:   Configs for the property to change (DEBUG|RELEASE|RELWITHDEBINFO)
-macro(cmutils_cmutils_target_add_c_compiler_flag target flag)
+macro(cmutils_target_add_c_linker_flag target flag)
 	cmutils_target_add_linker_flag(${target} C ${flag} ${ARGN})
 endmacro()
 
@@ -239,7 +239,7 @@ endmacro()
 #   {value} [in] target:    Target to add flag
 #   {value} [in] flag:      Flag to add
 #   {value} [in] configs:   Configs for the property to change (DEBUG|RELEASE|RELWITHDEBINFO)
-macro(cmutils_target_add_cxx_compiler_flag target flag)
+macro(cmutils_target_add_cxx_linker_flag target flag)
 	cmutils_target_add_linker_flag(${target} CXX ${flag} ${ARGN})
 endmacro()
 
