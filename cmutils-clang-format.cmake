@@ -24,6 +24,7 @@
 
 # Functions summary:
 # - cmutils_target_generate_clang_format(target [STYLE style] [WORKING_DIRECTORY work_dir])
+# - cmutils_generate_clang_format(target_name [RECURSE] directories... [STYLE style] [WORKING_DIRECTORY work_dir])
 
 # include guard
 if(CMUTILS_CLANG_FORMAT_INCLUDED)
@@ -76,4 +77,51 @@ function(cmutils_target_generate_clang_format target)
 	)
 	cmutils_target_set_ide_folder(${format-target} "format")
 	message(STATUS "[cmutils] ${target}: Generated format target ${format-target}")
+endfunction()
+
+## cmutils_generate_clang_format(target_name [RECURSE] directories... [STYLE style] [WORKING_DIRECTORY work_dir])
+# Generate a format target with the C and C++ sources files form input directories (recursively or not).
+# The generated target lanch clang-format on all the sources with the specified style (or the 'file'
+# style by default) in the specified working directory (${CMAKE_CURRENT_SOURCE_DIR} by default}).
+# With 'file' style the working directory should contain a ".clang-format" file.
+# If an input directory is a file, it is added to the sources.
+#   {value}  [in] target_name:   Name og the target to generate
+#   {option} [in] RECURSE:       If present, search is recursive
+#   {value}  [in] directories:   Directories to search sources
+#   {value}  [in] style:         clang-format style (file, LLVM, Google, Chromium, Mozilla, WebKit)
+#   {value}  [in] work_dir:      clang-format working directory
+function(cmutils_generate_clang_format target_name)
+	cmake_parse_arguments(ARGS "RECURSE" "STYLE;WORKING_DIRECTORY" "" ${ARGN})
+	if(NOT ARGS_UNPARSED_ARGUMENTS)
+		message(FATAL_ERROR "Missing argument: directories")
+	endif()
+	if(NOT ARGS_STYLE)
+		set(ARGS_STYLE file)
+	endif()
+	if(NOT ARGS_WORKING_DIRECTORY)
+		set(ARGS_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+	endif()
+
+	find_program(CLANG_FORMAT clang-format
+		NAMES clang-format-9 clang-format-8 clang-format-7 clang-format-6)
+	if(${CLANG_FORMAT} STREQUAL CLANG_FORMAT-NOTFOUND)
+		message(WARNING "[cmutils] clang-format not found, ${target_name} not generated")
+		return()
+	else()
+		message(STATUS "[cmutils] clang-format found: ${CLANG_FORMAT}")
+	endif()
+
+	if(ARGS_RECURSE)
+		cmutils_get_sources(files RECURSE ${ARGS_UNPARSED_ARGUMENTS})
+	else()
+		cmutils_get_sources(files ${ARGS_UNPARSED_ARGUMENTS})
+	endif()
+	add_custom_target(
+		${target_name}
+		COMMAND "${CLANG_FORMAT}" -style=${ARGS_STYLE} -i ${files}
+		WORKING_DIRECTORY "${ARGS_WORKING_DIRECTORY}"
+		VERBATIM
+	)
+	cmutils_target_set_ide_folder(${target_name} "format")
+	message(STATUS "[cmutils] Generated format target ${target_name}")
 endfunction()
