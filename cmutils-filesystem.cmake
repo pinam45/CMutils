@@ -109,7 +109,7 @@ endfunction()
 # If an input directory is a file, it is added to output.
 #   {variable} [out] output:        Output variable, contain the sources files
 #   {option}   [in]  RECURSE:       If present, search is recursive
-#   {value}    [in]  directories:   Directory to search files
+#   {value}    [in]  directories:   Directories to search files
 #   {value}    [in]  extension:     Extentions of files to get
 function(cmutils_get_files output)
 	cmake_parse_arguments(ARGS "RECURSE" "" "EXTENTIONS" ${ARGN})
@@ -145,8 +145,8 @@ endfunction()
 # Get (recursively or not) C and C++ sources files form input directories.
 # If an input directory is a file, it is added to output.
 #   {variable} [out] output:        Output variable, contain the sources files
-#   {value}    [in]  directories:   Directory to search files
 #   {option}   [in]  RECURSE:       If present, search is recursive
+#   {value}    [in]  directories:   Directories to search sources
 macro(cmutils_get_sources output)
 	cmutils_get_files(${output} ${ARGN} EXTENTIONS .c .C .c++ .cc .cpp .cxx .h .hh .h++ .hpp .hxx .tpp .txx .tcc)
 endmacro()
@@ -155,8 +155,8 @@ endmacro()
 # Get (recursively or not) C and C++ headers files form input directories.
 # If an input directory is a file, it is added to output.
 #   {variable} [out] output:        Output variable, contain the sources files
-#   {value}    [in]  directories:   Directory to search files
 #   {option}   [in]  RECURSE:       If present, search is recursive
+#   {value}    [in]  directories:   Directories to search headers
 macro(cmutils_get_headers output)
 	cmutils_get_files(${output} ${ARGN} EXTENTIONS .h .hh .h++ .hpp .hxx .tpp .txx .tcc)
 endmacro()
