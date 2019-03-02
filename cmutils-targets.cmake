@@ -48,6 +48,7 @@
 # - cmutils_target_disable_warnings(target)
 # - cmutils_target_set_ide_folder(target folder)
 # - cmutils_target_source_group(target root)
+# - cmutils_interface_target_generate_headers_target(target header_target_name)
 
 # include guard
 if(CMUTILS_TARGETS_INCLUDED)
@@ -728,4 +729,25 @@ function(cmutils_target_source_group target root)
 
 	get_property(target_sources TARGET ${target} PROPERTY SOURCES)
 	source_group(TREE ${root} FILES ${target_sources})
+endfunction()
+
+## cmutils_interface_target_generate_headers_target(target header_target_name)
+# Generate a "headers" target with the headers of the interface include directories of the given
+# interface target as sources. The target will be visible in IDEs, enabling to browse headers of
+# the interface / header-only target.
+#   {value} [in] target:               Interface target with the interface include directories
+#   {value} [in] header_target_name:   Name of the "headers" target to generate
+function(cmutils_interface_target_generate_headers_target target header_target_name)
+	if(NOT TARGET ${target})
+		message(FATAL_ERROR "Invalid argument: ${target} is not a target")
+	endif()
+	if(${ARGC} GREATER 2)
+		message(FATAL_ERROR "Too many arguments")
+	endif()
+
+	get_property(target_include_directories TARGET ${target} PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
+	cmutils_get_headers(headers RECURSE ${target_include_directories})
+	add_custom_target(${header_target_name} SOURCES ${headers})
+
+	message(STATUS "[cmutils] ${target}: Generated header target ${header_target_name}")
 endfunction()
