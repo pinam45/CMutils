@@ -81,7 +81,6 @@
 			"-Wzero-as-null-pointer-constant",
 			"-Wsubobject-linkage",
 			"-Wdelete-incomplete",
-			"-Wuseless-cast",
 			"-Wctor-dtor-privacy",
 			"-Wnoexcept",
 			"-Wregister",
