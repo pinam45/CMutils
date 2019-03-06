@@ -61,7 +61,6 @@
 			"-Wcast-qual",
 			"-Wcast-align",
 			"-Wwrite-strings",
-			"-Wconversion",
 			"-Wsign-conversion",
 			"-Wdate-time",
 			"-Wextra-semi",
