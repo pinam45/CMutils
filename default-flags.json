@@ -90,7 +90,6 @@
 			"-Wsuggest-override"
 		],
 		"c": [
-			"-Wdeclaration-after-statement",
 			"-Wbad-function-cast",
 			"-Wjump-misses-init",
 			"-Wstrict-prototypes",
