@@ -34,6 +34,7 @@ set(CMUTILS_CLANG_FORMAT_INCLUDED ON)
 
 # dependencies
 include(${CMAKE_CURRENT_LIST_DIR}/cmutils-lists.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/cmutils-targets.cmake)
 
 ## cmutils_target_generate_clang_format(target [STYLE style] [WORKING_DIRECTORY work_dir])
 # Generate a format target for the target (format-${target}). The generated target lanch
@@ -59,6 +60,9 @@ function(cmutils_target_generate_clang_format target)
 	endif()
 
 	set(format-target "format-${target}")
+	if(TARGET ${format-target})
+		message(FATAL_ERROR "${format-target} already exists")
+	endif()
 	find_program(CLANG_FORMAT clang-format
 		NAMES clang-format-9 clang-format-8 clang-format-7 clang-format-6)
 	if(${CLANG_FORMAT} STREQUAL CLANG_FORMAT-NOTFOUND)
