@@ -1,0 +1,15 @@
+//
+// Copyright (c) 2019 Maxime Pinard
+//
+// Distributed under the MIT license
+// See accompanying file LICENSE or copy at
+// https://opensource.org/licenses/MIT
+//
+#include "@TARGET_NAME@.hpp"
+
+namespace @TARGET_NAME@
+{
+	const bool retrieved_state = @GIT_RETRIEVED_STATE@;
+	const std::string head_sha1 = "@GIT_HEAD_SHA1@";
+	const bool is_dirty = @GIT_IS_DIRTY@;
+}
