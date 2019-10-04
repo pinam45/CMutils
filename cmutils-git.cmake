@@ -64,7 +64,7 @@ function(cmutils_generate_git_info_target target_name git_directory)
 	# Set variables
 	get_filename_component(TARGET_DIR ${CMAKE_CURRENT_BINARY_DIR}/${target_name} ABSOLUTE)
 	set(PRE_INFO_BASE_FOLDER "${CMUTILS_GIT_INFO_FOLDER_PATH}/")
-	set(POST_INFO_BASE_FOLDER "${TARGET_DIR}/")
+	set(POST_INFO_BASE_FOLDER "${TARGET_DIR}")
 	set(PRE_CPP "${PRE_INFO_BASE_FOLDER}/src/${target_name}.cpp.in")
 	set(PRE_HPP "${PRE_INFO_BASE_FOLDER}/include/${target_name}.hpp.in")
 	set(POST_CPP "${POST_INFO_BASE_FOLDER}/src/${target_name}.cpp")
@@ -106,7 +106,7 @@ function(cmutils_generate_git_info_target target_name git_directory)
 
 	# Create target
 	add_library(${target_name} STATIC)
-	target_sources(${target_name} PUBLIC "${POST_CPP}" "${POST_HPP}")
+	target_sources(${target_name} PRIVATE "${POST_CPP}" "${POST_HPP}")
 	target_include_directories(${target_name} SYSTEM PUBLIC "${TARGET_DIR}/include")
 	add_dependencies(${target_name} update_${target_name})
 	cmutils_target_disable_warnings(${target_name})
