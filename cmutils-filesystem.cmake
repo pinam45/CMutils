@@ -26,7 +26,7 @@
 # - cmutils_directory_is_empty(output dir)
 # - cmutils_configure_folder(input_folder output_folder [args...])
 # - cmutils_group_files(group root files...)
-# - cmutils_get_files(output [RECURSE] directories... EXTENTIONS extension...)
+# - cmutils_get_files(output [RECURSE] directories... EXTENSIONS extension...)
 # - cmutils_get_sources(output [RECURSE] directories...)
 # - cmutils_get_headers(output [RECURSE] directories...)
 
@@ -104,20 +104,20 @@ function(cmutils_group_files group root)
 	endforeach()
 endfunction()
 
-## cmutils_get_files(output [RECURSE] directories... EXTENTIONS extension...)
-# Get (recursively or not) files with the specified extentions form the input directories.
+## cmutils_get_files(output [RECURSE] directories... EXTENSIONS extension...)
+# Get (recursively or not) files with the specified extensions form the input directories.
 # If an input directory is a file, it is added to output.
 #   {variable} [out] output:        Output variable, contain the sources files
 #   {option}   [in]  RECURSE:       If present, search is recursive
 #   {value}    [in]  directories:   Directories to search files
-#   {value}    [in]  extension:     Extentions of files to get
+#   {value}    [in]  extension:     Extensions of files to get
 function(cmutils_get_files output)
-	cmake_parse_arguments(ARGS "RECURSE" "" "EXTENTIONS" ${ARGN})
+	cmake_parse_arguments(ARGS "RECURSE" "" "EXTENSIONS" ${ARGN})
 	if(NOT ARGS_UNPARSED_ARGUMENTS)
 		message(FATAL_ERROR "Missing argument: directories")
 	endif()
-	if(NOT ARGS_EXTENTIONS)
-		message(FATAL_ERROR "Missing argument: extentions")
+	if(NOT ARGS_EXTENSIONS)
+		message(FATAL_ERROR "Missing argument: extensions")
 	endif()
 	if(ARGS_RECURSE)
 		set(glob GLOB_RECURSE)
@@ -127,15 +127,17 @@ function(cmutils_get_files output)
 
 	set(files)
 	foreach(it ${ARGS_UNPARSED_ARGUMENTS})
-		if(IS_DIRECTORY ${it})
-			set(patterns)
-			foreach(extension ${ARGS_EXTENTIONS})
-				list(APPEND patterns "${it}/*${extension}")
-			endforeach()
-			file(${glob} tmp_files ${patterns})
-			list(APPEND files ${tmp_files})
-		else()
-			list(APPEND files ${it})
+		if(EXISTS ${it})
+			if(IS_DIRECTORY ${it})
+				set(patterns)
+				foreach(extension ${ARGS_EXTENSIONS})
+					list(APPEND patterns "${it}/*${extension}")
+				endforeach()
+				file(${glob} tmp_files ${patterns})
+				list(APPEND files ${tmp_files})
+			else()
+				list(APPEND files ${it})
+			endif()
 		endif()
 	endforeach()
 	set(${output} ${files} PARENT_SCOPE)
@@ -148,7 +150,7 @@ endfunction()
 #   {option}   [in]  RECURSE:       If present, search is recursive
 #   {value}    [in]  directories:   Directories to search sources
 macro(cmutils_get_sources output)
-	cmutils_get_files(${output} ${ARGN} EXTENTIONS .c .C .c++ .cc .cpp .cxx .h .hh .h++ .hpp .hxx .tpp .txx .tcc)
+	cmutils_get_files(${output} ${ARGN} EXTENSIONS .c .C .c++ .cc .cpp .cxx .h .hh .h++ .hpp .hxx .tpp .txx .tcc)
 endmacro()
 
 ## cmutils_get_headers(output [RECURSE] directories...)
@@ -158,5 +160,5 @@ endmacro()
 #   {option}   [in]  RECURSE:       If present, search is recursive
 #   {value}    [in]  directories:   Directories to search headers
 macro(cmutils_get_headers output)
-	cmutils_get_files(${output} ${ARGN} EXTENTIONS .h .hh .h++ .hpp .hxx .tpp .txx .tcc)
+	cmutils_get_files(${output} ${ARGN} EXTENSIONS .h .hh .h++ .hpp .hxx .tpp .txx .tcc)
 endmacro()

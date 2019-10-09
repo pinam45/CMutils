@@ -249,7 +249,7 @@ macro(cmutils_target_add_cxx_linker_flag target flag)
 endmacro()
 
 ## cmutils_target_set_standard(target target [C c_std] [CXX cxx_std])
-# Set the target language standard to use, also set the standard as required and disable compiler extentions.
+# Set the target language standard to use, also set the standard as required and disable compiler extensions.
 #   {value} [in] target:    Target to configure
 #   {value} [in] c_std:     C standard to use (90|99|11)
 #   {value} [in] cxx_std:   CXX standard to use (98|11|14|17|20)
