@@ -62,7 +62,7 @@ endfunction()
 # to be one of (Debug, RelWithDebInfo, Release).
 # If the input config is not valid (not case sensitive), output is empty.
 #   {value}    [in]  config:         Config to format
-#   {variable} [out] valid_config:   Formated config
+#   {variable} [out] valid_config:   Formatted config
 function(cmutils_format_config config valid_config)
 	if(ARGC GREATER 2)
 		message(FATAL_ERROR "Too many arguments")
@@ -70,10 +70,10 @@ function(cmutils_format_config config valid_config)
 
 	string(TOLOWER "${config}" config_lower)
 	set(config_name)
-	foreach(formated_config IN ITEMS "Debug" "RelWithDebInfo" "Release")
-		string(TOLOWER "${formated_config}" valid_config_lower)
+	foreach(formatted_config IN ITEMS "Debug" "RelWithDebInfo" "Release")
+		string(TOLOWER "${formatted_config}" valid_config_lower)
 		if(${config_lower} STREQUAL ${valid_config_lower})
-			set(${valid_config} ${formated_config} PARENT_SCOPE)
+			set(${valid_config} ${formatted_config} PARENT_SCOPE)
 			return()
 		endif()
 	endforeach()
@@ -94,16 +94,16 @@ endmacro()
 # to be one of (DEBUG, RELWITHDEBINFO, RELEASE).
 # If the input config is not valid (not case sensitive), output is empty.
 #   {value}    [in]  config:         Config to format
-#   {variable} [out] valid_config:   Formated config
+#   {variable} [out] valid_config:   Formatted config
 function(cmutils_format_config_uppercase config valid_config)
 	if(ARGC GREATER 2)
 		message(FATAL_ERROR "Too many arguments")
 	endif()
 
 	string(TOUPPER "${config}" config_upper)
-	foreach(formated_config IN ITEMS "DEBUG" "RELWITHDEBINFO" "RELEASE")
-		if(${config_upper} STREQUAL ${formated_config})
-			set(${valid_config} ${formated_config} PARENT_SCOPE)
+	foreach(formatted_config IN ITEMS "DEBUG" "RELWITHDEBINFO" "RELEASE")
+		if(${config_upper} STREQUAL ${formatted_config})
+			set(${valid_config} ${formatted_config} PARENT_SCOPE)
 			return()
 		endif()
 	endforeach()

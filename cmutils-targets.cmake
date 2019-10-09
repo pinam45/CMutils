@@ -436,7 +436,7 @@ function(cmutils_target_configure_gcc_compile_options target)
 endfunction()
 
 ## cmutils_target_configure_clang_compile_options(target)
-# Configure clang compile oprions for the target like debug informations, optimisation...
+# Configure clang compile options for the target like debug information, optimisation...
 #   {value} [in] target:   Target to configure
 function(cmutils_target_configure_clang_compile_options target)
 	if(NOT TARGET ${target})
@@ -468,7 +468,7 @@ function(cmutils_target_configure_clang_compile_options target)
 endfunction()
 
 ## cmutils_target_configure_compile_options(target)
-# Configure compile oprions for the target like debug informations, optimisation...
+# Configure compile options for the target like debug information, optimisation...
 #   {value} [in] target:   Target to configure
 function(cmutils_target_configure_compile_options target)
 	if(NOT TARGET ${target})
@@ -550,7 +550,7 @@ endfunction()
 # Enable the specified sanitizers in the specified build modes for the specified target on compilers
 # that support the sanitizers.
 # Incompatibilities: ThreadSanitizer cannot be combined with AddressSanitizer and LeakSanitizer
-# Value -> sanitizer correspondance:
+# Value -> sanitizer correspondence:
 # - ADDRESS:   AddressSanitizer
 # - THREAD:    ThreadSanitizer
 # - LEAK:      LeakSanitizer
